@@ -1,15 +1,273 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
-    <title>점심 메뉴 추천 사이트 이용 가능?</title>
-    <meta http-equiv="refresh" 
-          content="0; URL = 'https://adminmart.github.io/premium-documentation/nextjs/nextkit/index.html'" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>점심 뭐먹지?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; }
+        .tabs-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .tabs-trigger { padding: 10px 20px; border-radius: 9999px; text-align: center; cursor: pointer; transition: background-color 0.2s; }
+        .tabs-trigger.active { background-color: #000; color: #fff; }
+        .tabs-content { display: none; }
+        .tabs-content.active { display: block; }
+        .card-image { width: 100%; height: 192px; object-fit: cover; border-radius: 8px; }
+    </style>
 </head>
+<body class="bg-gray-100 text-gray-800">
 
-<body>
-    <h1>MaterialM Next.Js Premium Template</h1>
-    <a href="https://adminmart.github.io/premium-documentation/nextjs/nextkit/index.html">https://adminmart.github.io/premium-documentation/nextjs/nextkit/index.html</a>
+    <header class="border-b bg-white/50 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="text-2xl">🍱</div>
+                    <h1 class="text-xl font-bold text-gray-900">점심 뭐먹지?</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="w-full">
+            <div class="tabs-list flex justify-center mb-8">
+                <button class="tabs-trigger px-6 py-3 font-semibold rounded-full bg-white text-gray-700 hover:bg-gray-200 focus:outline-none" data-tab-target="home">🏠 홈</button>
+                <button class="tabs-trigger px-6 py-3 font-semibold rounded-full bg-white text-gray-700 hover:bg-gray-200 focus:outline-none" data-tab-target="recommend">🎯 추천받기</button>
+                <button class="tabs-trigger px-6 py-3 font-semibold rounded-full bg-white text-gray-700 hover:bg-gray-200 focus:outline-none" data-tab-target="popular">🔥 인기메뉴</button>
+            </div>
+
+            <div id="home" class="tabs-content p-4 bg-white rounded-lg shadow-md active">
+                <div class="text-center py-16">
+                    <h2 class="text-4xl font-bold mb-4 text-gray-900">오늘 점심 뭐 먹을까?</h2>
+                    <p class="text-gray-500 mb-8 text-lg">메뉴 고민 끝! 바로 추천받아보세요</p>
+                    <button id="recommend-btn" class="text-lg px-8 py-6 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6"/><path d="M2.34 13.52c-.77-.4-1.58-.7-2.34-.7-.9 0-1.74.41-2.42 1.13-1.61 1.76-1.61 4.67 0 6.42.7.72 1.54 1.13 2.42 1.13 1.08 0 2.1-.53 2.92-1.58L10 16"/></svg>
+                        추천받기 🔍
+                    </button>
+                </div>
+                <div id="recommendation-card-container"></div>
+            </div>
+
+            <div id="recommend" class="tabs-content p-4 bg-white rounded-lg shadow-md">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-4">메뉴 추천받기</h2>
+                    <p class="text-gray-500 mb-6">카테고리를 선택하고 추천받아보세요!</p>
+                </div>
+                <div id="category-filter" class="flex flex-wrap gap-2 justify-center mb-6"></div>
+                <div id="menu-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <div id="popular" class="tabs-content p-4 bg-white rounded-lg shadow-md">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-4">인기 메뉴 TOP 5</h2>
+                    <p class="text-gray-500 mb-6">사람들이 가장 많이 좋아하는 메뉴들이에요!</p>
+                </div>
+                <div id="popular-list" class="space-y-4"></div>
+                <div class="bg-gray-100 rounded-lg p-6 text-center mt-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <h3 class="text-lg font-semibold mb-2">친구들과 공유하세요!</h3>
+                    <p class="text-gray-500 mb-4">좋아하는 메뉴를 친구들에게 추천해보세요</p>
+                    <button class="px-4 py-2 border rounded-full font-semibold hover:bg-gray-200 transition-colors">공유하기</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t bg-white/30 mt-16">
+        <div class="container mx-auto px-4 py-8 text-center text-gray-500">
+            <p>© 2025 점심 뭐먹지? | 메뉴 고민 해결사</p>
+            <p class="mt-2">문의: lunch@menu.com</p>
+        </div>
+    </footer>
+
+    <script>
+        // 메뉴 데이터
+        const menuItems = [
+            { id: 1, name: "김치볶음밥", category: "한식", likes: 245, image: "/placeholder-og7pw.png", description: "매콤하고 맛있는 국민 메뉴!" },
+            { id: 2, name: "짜장면", category: "중식", likes: 189, image: "/jajangmyeon.png", description: "달콤한 짜장소스가 일품" },
+            { id: 3, name: "돈까스", category: "일식", likes: 167, image: "/tonkatsu-pork-cutlet.png", description: "바삭바삭한 돈까스" },
+            { id: 4, name: "햄버거", category: "양식", likes: 134, image: "/western-hamburger.png", description: "푸짐한 햄버거 세트" },
+            { id: 5, name: "삼각김밥", category: "편의점", likes: 98, image: "/placeholder-5jv55.png", description: "간편한 삼각김밥" },
+            { id: 6, name: "비빔밥", category: "한식", likes: 156, image: "/bibimbap-korean-mixed-rice.png", description: "영양 만점 비빔밥" },
+            { id: 7, name: "라면", category: "편의점", likes: 201, image: "/korean-instant-ramen.png", description: "따뜻한 라면 한 그릇" },
+            { id: 8, name: "초밥", category: "일식", likes: 143, image: "/sushi-japanese-food.png", description: "신선한 초밥" },
+        ];
+
+        let likedItems = new Set();
+        let selectedCategory = "전체";
+        const categories = ["전체", "한식", "중식", "일식", "양식", "편의점"];
+
+        // 탭 전환 기능
+        const tabs = document.querySelectorAll('.tabs-trigger');
+        const contents = document.querySelectorAll('.tabs-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('bg-black', 'text-white'));
+                tab.classList.add('bg-black', 'text-white');
+                contents.forEach(c => c.classList.remove('active'));
+                document.getElementById(tab.dataset.tabTarget).classList.add('active');
+                
+                // 탭 전환 시 내용 다시 렌더링
+                if (tab.dataset.tabTarget === 'recommend') {
+                    renderRecommendMenus();
+                } else if (tab.dataset.tabTarget === 'popular') {
+                    renderPopularMenus();
+                }
+            });
+        });
+        
+        // 초기 활성화 탭 설정
+        document.querySelector('.tabs-trigger').click();
+
+        // 홈 탭 - 무작위 추천
+        const recommendBtn = document.getElementById('recommend-btn');
+        const recommendationContainer = document.getElementById('recommendation-card-container');
+
+        recommendBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * menuItems.length);
+            const item = menuItems[randomIndex];
+            recommendationContainer.innerHTML = `
+                <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-6 text-center">
+                        <div class="text-2xl font-bold text-gray-900 mb-4">오늘의 추천 메뉴는...</div>
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover rounded-lg mb-4"/>
+                        <h3 class="text-3xl font-bold text-gray-900">${item.name}!</h3>
+                        <p class="text-gray-500 mb-4">${item.description}</p>
+                        <div class="flex items-center justify-center gap-4 mb-4">
+                            <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-0.5 text-sm font-medium text-gray-600">${item.category}</span>
+                            <div class="flex items-center gap-1 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                <span>${item.likes}</span>
+                            </div>
+                        </div>
+                        <button id="re-recommend-btn" class="w-full px-4 py-2 border rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6"/><path d="M2.34 13.52c-.77-.4-1.58-.7-2.34-.7-.9 0-1.74.41-2.42 1.13-1.61 1.76-1.61 4.67 0 6.42.7.72 1.54 1.13 2.42 1.13 1.08 0 2.1-.53 2.92-1.58L10 16"/></svg>
+                            다시 추천받기
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('re-recommend-btn').addEventListener('click', () => {
+                recommendBtn.click();
+            });
+        });
+
+        // 추천받기 탭 - 카테고리 필터 및 메뉴 렌더링
+        const categoryFilter = document.getElementById('category-filter');
+        const menuList = document.getElementById('menu-list');
+
+        function renderRecommendMenus() {
+            // 카테고리 버튼 렌더링
+            categoryFilter.innerHTML = categories.map(cat => `
+                <button class="px-4 py-2 border rounded-full font-semibold hover:bg-gray-200 transition-colors ${selectedCategory === cat ? 'bg-black text-white' : ''}" data-category="${cat}">
+                    ${cat}
+                </button>
+            `).join('');
+
+            // 메뉴 리스트 렌더링
+            const filteredMenus = selectedCategory === "전체" ? menuItems : menuItems.filter(item => item.category === selectedCategory);
+            menuList.innerHTML = filteredMenus.map(item => `
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="relative">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover"/>
+                        <button class="absolute top-2 right-2 rounded-full p-2 bg-white/80 backdrop-blur-sm like-btn" data-id="${item.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ${likedItems.has(item.id) ? 'text-red-500 fill-red-500' : 'text-gray-400'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-xl font-bold">${item.name}</h3>
+                            <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-0.5 text-sm font-medium text-gray-600">${item.category}</span>
+                        </div>
+                        <p class="text-gray-500 text-sm mb-4">${item.description}</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                <span>${item.likes + (likedItems.has(item.id) ? 1 : 0)}</span>
+                            </div>
+                            <button class="px-3 py-1 border rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0z"/><circle cx="12" cy="8" r="3"/></svg>
+                                근처 찾기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // 이벤트 리스너 재부착
+            document.querySelectorAll('#category-filter button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    selectedCategory = e.target.dataset.category;
+                    renderRecommendMenus();
+                });
+            });
+
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const itemId = parseInt(e.currentTarget.dataset.id);
+                    if (likedItems.has(itemId)) {
+                        likedItems.delete(itemId);
+                    } else {
+                        likedItems.add(itemId);
+                    }
+                    renderRecommendMenus(); // 상태 변경 후 다시 렌더링
+                });
+            });
+        }
+
+        // 인기 메뉴 탭 - 메뉴 렌더링
+        const popularList = document.getElementById('popular-list');
+        function renderPopularMenus() {
+            const popularMenus = [...menuItems].sort((a, b) => b.likes - a.likes).slice(0, 5);
+            popularList.innerHTML = popularMenus.map((item, index) => `
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold ${
+                                index === 0 ? "bg-yellow-400 text-white" :
+                                index === 1 ? "bg-gray-400 text-white" :
+                                index === 2 ? "bg-amber-600 text-white" :
+                                "bg-gray-200 text-gray-600"
+                            }">
+                                ${index + 1}
+                            </div>
+                        </div>
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg"/>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold">${item.name}</h3>
+                            <p class="text-gray-500">${item.description}</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-0.5 text-xs font-medium text-gray-600">${item.category}</span>
+                                <div class="flex items-center gap-1 text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    <span class="font-semibold">${item.likes}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 border rounded-full font-semibold hover:bg-gray-200 transition-colors like-btn" data-id="${item.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1 ${likedItems.has(item.id) ? 'text-red-500 fill-red-500' : 'text-gray-400'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            좋아요
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 이벤트 리스너 재부착
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const itemId = parseInt(e.currentTarget.dataset.id);
+                    if (likedItems.has(itemId)) {
+                        likedItems.delete(itemId);
+                    } else {
+                        likedItems.add(itemId);
+                    }
+                    renderPopularMenus(); // 상태 변경 후 다시 렌더링
+                });
+            });
+        }
+    </script>
+
 </body>
-
 </html>
