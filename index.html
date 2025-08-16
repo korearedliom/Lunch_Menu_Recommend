@@ -304,7 +304,7 @@
 
         function voteMenu(menuName, type) {
             const menu = menuItems.find(m => m.name === menuName);
-            if (menu && type === 'like') {
+            if (menu && type === 'like','dislike') {
                 menu.votes++;
                 alert(`${menuName}에 투표 참여 굳! 👍`);
                 if (document.getElementById('popular-screen').classList.contains('hidden') === false) {
