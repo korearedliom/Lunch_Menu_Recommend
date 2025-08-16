@@ -40,7 +40,7 @@
         <div id="home-screen" class="text-center">
             <div class="mb-8">
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">오늘 점심 뭐 먹지?</h2>
-                <p class="text-xl text-gray-600 mb-8">맛있는 점심 메뉴를 추천해드릴게요!</p>
+                <p class="text-xl text-gray-600 mb-8">맛있는 점심 메뉴를 추천!</p>
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border-2 border-primary/20">
@@ -57,14 +57,14 @@
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="bg-white rounded-xl p-6 shadow-md border border-accent/20">
                     <h3 class="text-lg font-bold text-gray-800 mb-2">🔥 인기 메뉴</h3>
-                    <p class="text-gray-600 mb-4">다른 사람들이 좋아하는 메뉴를 확인해보세요</p>
+                    <p class="text-gray-600 mb-4">다른 사람들이 좋아하는 메뉴를 확인하?</p>
                     <button onclick="showPopular()" class="text-accent hover:text-accent-dark font-medium">
                         인기 메뉴 보기 →
                     </button>
                 </div>
                 <div class="bg-white rounded-xl p-6 shadow-md border border-primary/20">
                     <h3 class="text-lg font-bold text-gray-800 mb-2">⚙️ 설정</h3>
-                    <p class="text-gray-600 mb-4">제외할 음식이나 선호도를 설정하세요</p>
+                    <p class="text-gray-600 mb-4">제외할 음식이나 선호도를 설정</p>
                     <button onclick="showSettings()" class="text-primary hover:text-primary-dark font-medium">
                         설정하기 →
                     </button>
@@ -181,8 +181,8 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8 mt-16">
         <div class="max-w-4xl mx-auto px-4 text-center">
-            <p class="mb-2">© 2024 점심 메뉴 추천 사이트</p>
-            <p class="text-gray-400">맛있는 점심 시간 되세요! 🍽️</p>
+            <p class="mb-2">점심 메뉴 추천 사이트</p>
+            <p class="text-gray-400">맛점! 🍽️</p>
         </div>
     </footer>
 
@@ -231,13 +231,13 @@
                     <img src="${randomMenu.image}" alt="${randomMenu.name}" class="mx-auto rounded-lg shadow-md mb-4">
                 </div>
                 <h3 class="text-3xl font-bold text-primary mb-4">${randomMenu.name}</h3>
-                <p class="text-gray-600 mb-6">오늘의 추천 메뉴입니다! 맛있게 드세요 😋</p>
+                <p class="text-gray-600 mb-6">오늘의 추천 메뉴! 맛점! 😋</p>
                 <div class="flex justify-center space-x-4">
                     <button onclick="voteMenu('${randomMenu.name}', 'like')" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-colors">
-                        👍 좋아요
+                        👍 굳
                     </button>
                     <button onclick="voteMenu('${randomMenu.name}', 'dislike')" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors">
-                        👎 별로예요
+                        👎 별로
                     </button>
                 </div>
             `;
@@ -306,7 +306,7 @@
             const menu = menuItems.find(m => m.name === menuName);
             if (menu && type === 'like') {
                 menu.votes++;
-                alert(`${menuName}에 투표해주셔서 감사합니다! 👍`);
+                alert(`${menuName}에 투표 참여 굳! 👍`);
                 if (document.getElementById('popular-screen').classList.contains('hidden') === false) {
                     loadPopularMenu();
                 }
